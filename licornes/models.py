@@ -14,8 +14,8 @@ class Licorne(models.Model):
 class Etape(models.Model):
     licorne = models.ForeignKey(Licorne, on_delete=models.CASCADE)
     etape_date = models.DateField()
-    localisation = models.CharField(max_length=100)
-    current = models.BooleanField()
+    localisation = models.CharField(max_length=100, default=None)
+    current = models.BooleanField(default=False)
 
     def __str__(self):
         return ("Etape de %s (%s)" % (self.licorne.nom, self.etape_date))
