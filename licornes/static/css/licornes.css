@@ -5,3 +5,12 @@ body {
   padding: 3rem 1.5rem;
   text-align: center;
 }
+#entete {
+  display: inline-block;
+  align-content: center;
+  font-family: 'Kalam', cursive;
+  font-size: 600%;
+  color: #eeeeee;
+  text-shadow: 2px 2px 4px #000;
+  text-align: center;
+}
