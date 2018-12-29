@@ -19,9 +19,8 @@
   </head>
 
   <body cz-shortcut-listen="true">
-
     <div role="main" class="container-fluid">
-      <div class="row haut">
+      <div class="row haut  mt-0 pt-0">
           <div class="col-1">
           </div>
           <div class="col-10" id="entete">
@@ -48,14 +47,17 @@
         <div class="col-3">
           <h1>Mes licornes</h1>
           <ul class="list-group">
-            <li class="list-group-item"><div class="media">
-  <img class="mr-3" src="..." alt="Image">
-  <div class="media-body">
-    <h5 class="mt-0">Sparky</h5>
-    Cras sit amet nibh libero
-  </div>
-</div></li>
-            <li class="list-group-item">Fluffy</li>
+          {% for licorne in meslicornes %}
+            <li class="list-group-item">
+              <div class="media">
+                <img class="mr-3" src="{{ licorne.photo }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
+                <div class="media-body">
+                  <h5 class="mt-0">{{ licorne }}</h5>
+                  <p>Créateur : {{ licorne.createur.CommonName }}</p>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
           </ul>
         </div>
         <div class="col-1"></div>

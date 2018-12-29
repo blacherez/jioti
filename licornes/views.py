@@ -10,8 +10,9 @@ def index(request):
     #return HttpResponse("Hello, world. You're at the unicorns index.")
 
     #latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    meslicornes = Licorne.objects.order_by("creation_date")
     template = loader.get_template('licornes/index.html')
     context = {
-        'latest_question_list': 0,
+        'meslicornes': meslicornes,
     }
     return HttpResponse(template.render(context, request))
