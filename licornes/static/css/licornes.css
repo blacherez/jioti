@@ -14,3 +14,44 @@ body {
   text-shadow: 2px 2px 4px #000;
   text-align: center;
 }
+
+#menu {
+  background-image: url("/static/img/ligne.png");
+}
+
+.bouton-menu {
+  font-family: 'Kalam', cursive;
+  color: #000;
+  font-size: 200%;
+  box-shadow: 2px 2px 2px 2px;
+}
+
+.bleu {
+  background-color: #bae9fc;
+}
+
+.jaune {
+  background-color: #fffd70;
+}
+
+.vert {
+  background-color: #b5feba;
+}
+
+.rose {
+  background-color: #fc9292;
+}
+
+body {
+  background-color: #eeeeee;
+}
+
+.haut {
+  background-color: #fff;
+}
+
+h1 {
+  font-family: 'Kalam', cursive;
+  color: #000;
+  //font-size: 120%;
+}
