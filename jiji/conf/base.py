@@ -101,3 +101,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Modèle à utiliser pour l'authenficiation
+AUTH_USER_MODEL = 'licornes.User'

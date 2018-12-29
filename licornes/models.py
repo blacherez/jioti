@@ -2,11 +2,19 @@ from django.db import models
 
 # Create your models here.
 
+#from django.contrib.auth.models import User
+from django.conf import settings
+
+
 class Licorne(models.Model):
     nom = models.CharField(max_length=200)
     creation_date = models.DateField('Date de création')
     photo = models.CharField(max_length=200)
     identifiant = models.CharField(max_length=50)
+    createur = models.ForeignKey(
+      settings.AUTH_USER_MODEL,
+      on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.nom
@@ -16,6 +24,17 @@ class Etape(models.Model):
     etape_date = models.DateField()
     localisation = models.CharField(max_length=100, default=None)
     current = models.BooleanField(default=False)
+    auteur = models.ForeignKey(
+      settings.AUTH_USER_MODEL,
+      on_delete=models.CASCADE
+    )
+    media = models.CharField(max_length=200, default=None)
 
     def __str__(self):
         return ("Etape de %s (%s)" % (self.licorne.nom, self.etape_date))
+
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    def CommonName(self):
+        return "%s %s." % (self.first_name, self.last_name[0])
