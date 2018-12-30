@@ -3,6 +3,10 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
+from django.urls import reverse_lazy
+
+
+from django.views.generic.edit import CreateView
 
 from .models import Licorne
 from django.conf import settings
@@ -20,5 +24,8 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def add(request):
-    pass
+
+class Add(CreateView):
+    model = Licorne
+    fields = ['nom', 'identifiant', 'photo', 'createur']
+    success_url = reverse_lazy('index')

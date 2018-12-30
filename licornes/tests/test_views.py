@@ -47,7 +47,6 @@ class IndexViewTest(TestCase):
         #print(str(response.content))
         self.assertInHTML("Licorne 0 de 0", str(response.content))
 
-
     def test_titres_present(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
@@ -67,3 +66,20 @@ class IndexViewTest(TestCase):
     #     self.assertTrue('is_paginated' in response.context)
     #     self.assertTrue(response.context['is_paginated'] == True)
     #     self.assertTrue(len(response.context['author_list']) == 3)
+class AddViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        pass
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/licornes/add/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('add'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'licornes/licorne_form.html')
