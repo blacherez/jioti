@@ -84,6 +84,11 @@ class AddViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'licornes/licorne_form.html')
 
+    def test_view_titre(self):
+        response = self.client.get(reverse('add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Ajouter une licorne" in str(response.content))
+
     def test_view_fields_presents(self):
         response = self.client.get(reverse('add'))
         self.assertEqual(response.status_code, 200)
