@@ -38,4 +38,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     def CommonName(self):
-        return "%s %s." % (self.first_name, self.last_name[0])
+        if self.first_name:
+            return "%s %s." % (self.first_name, self.last_name[0])
+        else:
+            return self.username

@@ -80,3 +80,23 @@ class EtapeModelTest(TestCase):
         etape = Etape.objects.get(id=1)
         max_length = etape._meta.get_field('media').max_length
         self.assertEquals(max_length, 200)
+
+class UserModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        User.objects.create(username="prof")
+
+    def test_common_name_est_prenom_et_initiale_du_nom(self):
+        u = User.objects.get(username="prof")
+        #initiale = u.last_name[0]
+        u.first_name = "Maîtresse"
+        u.last_name = "Lucie"
+        u.save()
+        expected_name = f'{u.first_name} {u.last_name[0]}.'
+        self.assertEquals(expected_name, u.CommonName())
+
+    def test_common_name_est_login_si_prenom_vide(self):
+        u = User.objects.get(username="prof")
+        expected_name = f'{u.username}'
+        self.assertEquals(expected_name, u.CommonName())
