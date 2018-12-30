@@ -56,7 +56,7 @@ class IndexViewTest(TestCase):
     def test_bouton_ajouter_present(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
-        self.assertInHTML("+ Ajouter une licorne", str(response.content))
+        self.assertTrue("+ Ajouter une licorne" in str(response.content))
 
 
     # def test_lists_all_authors(self):
@@ -83,3 +83,11 @@ class AddViewTest(TestCase):
         response = self.client.get(reverse('add'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'licornes/licorne_form.html')
+
+    def test_view_fields_presents(self):
+        response = self.client.get(reverse('add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Nom" in str(response.content))
+        self.assertTrue("Identifiant" in str(response.content))
+        self.assertTrue("Photo" in str(response.content))
+        self.assertFalse("+ Ajouter une licorne" in str(response.content))
