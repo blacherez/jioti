@@ -28,7 +28,7 @@
           </div>
           <div class="col-10" id="entete">
             J'irai où
-            <img src="{% static "img/logo.png" %}" height="200" width="200"/>
+            <a href="{% url "index" %}"><img src="{% static "img/logo.png" %}" height="200" width="200"/></a>
             Tu iras
           </div>
           <div class="col-1"></div>
@@ -38,7 +38,7 @@
         <div class="col-10" id="menu">
           <div class="d-flex justify-content-between">
             <button type="button" class="btn bouton-menu bleu">Pédagogie</button>
-            <button type="button" class="btn bouton-menu jaune">Mes licornes</button>
+            <a href="{% url "index" %}"><button type="button" class="btn bouton-menu jaune">Mes licornes</button></a>
             <button type="button" class="btn bouton-menu vert">Le concept</button>
             <button type="button" class="btn bouton-menu rose">Boutique</button>
           </div>
