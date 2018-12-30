@@ -28,7 +28,7 @@ class LicorneModelTest(TestCase):
     def test_max_length_nom(self):
         licorne = Licorne.objects.get(identifiant='77898787676867')
         max_length = licorne._meta.get_field('nom').max_length
-        self.assertEquals(max_length, 200)
+        self.assertEquals(max_length, 50)
 
     def test_max_length_photo(self):
         licorne = Licorne.objects.get(identifiant='77898787676867')
@@ -74,9 +74,9 @@ class EtapeModelTest(TestCase):
     def test_max_length_localisation(self):
         etape = Etape.objects.get(id=1)
         max_length = etape._meta.get_field('localisation').max_length
-        self.assertEquals(max_length, 100)
+        self.assertEquals(max_length, 200)
 
-    def test_max_length_localisation(self):
+    def test_max_length_media(self):
         etape = Etape.objects.get(id=1)
         max_length = etape._meta.get_field('media').max_length
         self.assertEquals(max_length, 200)
