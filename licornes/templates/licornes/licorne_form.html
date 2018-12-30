@@ -2,13 +2,14 @@
 
 {% block contenu %}
 <div class="row pt-5">
-  <div class="col-1"></div>
-  <div class="col-10">
-    <form method="post">{% csrf_token %}
+  <div class="col-4"></div>
+  <div class="col-4 content-center">
+    <h1>Ajouter une licorne</h1>
+    <form method="post" class="form-horizontal">{% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="Save">
     </form>
   </div>
-  <div class="col-1"></div>
+  <div class="col-4"></div>
 </div>
 {% endblock %}
