@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.template import loader
 
 from .models import Licorne
+from django.conf import settings
+
 
 def index(request):
     #return HttpResponse("Hello, world. You're at the unicorns index.")
@@ -14,5 +16,6 @@ def index(request):
     template = loader.get_template('licornes/index.html')
     context = {
         'meslicornes': meslicornes,
+        'mapbox_access_token': settings.MAPBOX_ACCESS_TOKEN,
     }
     return HttpResponse(template.render(context, request))
