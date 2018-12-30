@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 # Create your models here.
 
@@ -8,8 +9,8 @@ from django.conf import settings
 
 class Licorne(models.Model):
     nom = models.CharField(max_length=200)
-    creation_date = models.DateField('Date de création')
-    photo = models.CharField(max_length=200)
+    creation_date = models.DateField('Date de création', default=date.today)
+    photo = models.CharField(max_length=200, null=True)
     identifiant = models.CharField(max_length=50)
     createur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
