@@ -19,3 +19,6 @@ def index(request):
         'mapbox_access_token': settings.MAPBOX_ACCESS_TOKEN,
     }
     return HttpResponse(template.render(context, request))
+
+def add(request):
+    pass

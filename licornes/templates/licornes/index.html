@@ -56,7 +56,7 @@
               <div class="media">
                 <img class="mr-3" src="{{ licorne.photo }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
                 <div class="media-body">
-                  <h5 class="mt-0">{{ licorne }}</h5>
+                  <h2 class="mt-0">{{ licorne }}</h2>
                   <p>Créateur : {{ licorne.createur.CommonName }}</p>
                 </div>
               </div>
@@ -64,7 +64,7 @@
           {% endfor %}
           </ul>
           <div class="pt-3">
-            <button class="btn btn-primary btn-lg rounded">+ Ajouter une licorne</button>
+            <a href="{% url "add" %}"<button class="btn btn-primary btn-lg rounded">+ Ajouter une licorne</button></a>
           </div>
         </div>
         <div class="col-1"></div>
