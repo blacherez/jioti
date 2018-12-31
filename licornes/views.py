@@ -2,6 +2,7 @@
 
 # Create your views here.
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy
 
@@ -9,6 +10,8 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
 from .models import Licorne
+from .models import Etape
+from .forms import EtapeForm
 from django.conf import settings
 
 
@@ -24,6 +27,24 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+def etape(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = EtapeForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            form.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse_lazy("index"))
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = EtapeForm()
+    context = {"form": form}
+    template = loader.get_template('licornes/etape_form.html')
+    return HttpResponse(template.render(context, request))
 
 class Add(CreateView):
     model = Licorne

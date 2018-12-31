@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenu %}
+<div class="row pt-5">
+  <div class="col-4"></div>
+  <div class="col-4">
+    <h1>Ajouter une licorne</h1>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form method="post" role="form" class="form-horizontal" action="{% url 'etape' %}" >
+      {% csrf_token %}
+      {{ form.as_p }}
+
+            <input type="submit" value="Enregistrer">
+          </form>
+          </form>
+        </div>
+      </div>
+
+    <!-- Include Google Maps JS API -->
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyA7aBfs2-sIuPxQWv6jNjwhrhjBkFOrLGg"></script>
+
+    <!-- Custom JS code to bind to Autocomplete API -->
+    <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
+{% endblock %}
