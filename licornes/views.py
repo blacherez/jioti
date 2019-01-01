@@ -26,6 +26,7 @@ def index(request):
     context = {
         'meslicornes': meslicornes,
         'mapbox_access_token': settings.MAPBOX_ACCESS_TOKEN,
+        'google_key': settings.GOOGLE_KEY,
     }
     return HttpResponse(template.render(context, request))
 
@@ -53,7 +54,11 @@ def etape(request, licorne=""):
                 context = {"licorne": licorne}
                 return HttpResponse(template.render(context, request))
             form = EtapeForm(initial={'licorne': licorne_active})
-            context = {"form": form, "licorne": licorne_active}
+            context = {
+                "form": form,
+                "licorne": licorne_active,
+                'google_key': settings.GOOGLE_KEY,
+            }
             template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
 

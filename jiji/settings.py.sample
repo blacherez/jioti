@@ -23,3 +23,6 @@ DATABASES = {
 
 # ACCESS TOKEN MapBox
 MAPBOX_ACCESS_TOKEN = ""
+
+# Google API key
+GOOGLE_KEY = ""
