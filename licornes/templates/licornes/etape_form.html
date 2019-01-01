@@ -11,12 +11,11 @@
     <form method="post" role="form" class="form-horizontal" action="{% url 'etape' %}" >
       {% csrf_token %}
       {{ form.as_p }}
-
-            <input type="submit" value="Enregistrer">
-          </form>
-          </form>
-        </div>
-      </div>
+      <input type="submit" value="Enregistrer">
+    </form>
+  </div>
+  <div class="col-4"></div>
+</div>
 
     <!-- Include Google Maps JS API -->
     <script type="text/javascript"
