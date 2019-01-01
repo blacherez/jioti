@@ -50,7 +50,7 @@ def etape(request, licorne=""):
                 licorne_active = Licorne.objects.get(identifiant=licorne)
             except Licorne.DoesNotExist:
                 template = loader.get_template('licornes/creer.html')
-                context = {}
+                context = {"licorne": licorne}
                 return HttpResponse(template.render(context, request))
         form = EtapeForm()
     context = {"form": form}

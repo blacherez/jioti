@@ -183,3 +183,10 @@ class EtapeViewTest(TestCase):
         self.assertTrue("J'irai où tu iras" in t)
         h1 = soup.h1.string
         self.assertTrue("Licorne inexistante" in h1)
+        a = soup.find_all("a")
+        add_in_href = False
+        for l in a:
+            if "/add" in l["href"]:
+                add_in_href = True
+        self.assertTrue(add_in_href)
+        self.assertTrue(f"{self.identifiant_inexistant}" in str(response.content))
