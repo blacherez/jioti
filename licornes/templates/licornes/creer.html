@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenu %}
+<div class="row pt-5">
+  <div class="col-4"></div>
+  <div class="col-4">
+    <h1>Licorne inexistante</h1>
+    <p>
+      La licorne avec l'identifiant {{ licorne }} n'existe pas dans la base. Voulez-vous la créer ?
+    </p>
+    <div class="d-flex justify-content-center">
+      <a href="{% url "add" %}"><button class="btn btn-primary">Oui</button></a>
+      <a href="{% url "index" %}"><button class="btn">Non</button></a>
+    </div>
+  </div>
+  <div class="col-4"></div>
+</div>
+{% endblock %}

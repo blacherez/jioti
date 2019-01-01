@@ -3,6 +3,8 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import Http404
+
 from django.template import loader
 from django.urls import reverse_lazy
 
@@ -41,9 +43,18 @@ def etape(request, licorne=""):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = EtapeForm()
-    context = {"form": form}
-    template = loader.get_template('licornes/etape_form.html')
+        if not licorne:
+            raise Http404("Un identifiant de licorne doit être fourni.")
+        else:
+            try:
+                licorne_active = Licorne.objects.get(identifiant=licorne)
+            except Licorne.DoesNotExist:
+                template = loader.get_template('licornes/creer.html')
+                context = {"licorne": licorne}
+                return HttpResponse(template.render(context, request))
+            form = EtapeForm(initial={'licorne': licorne_active})
+            context = {"form": form, "licorne": licorne_active}
+            template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
 
 class Add(CreateView):
