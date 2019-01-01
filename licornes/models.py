@@ -6,6 +6,15 @@ from datetime import date
 #from django.contrib.auth.models import User
 from django.conf import settings
 
+import googlemaps
+
+
+def geocode(lieu):
+    gmaps = googlemaps.Client(key=settings.GOOGLE_SECRET)
+    # Geocoding an address
+    geocode_result = gmaps.geocode(lieu)
+    return geocode_result[0]["geometry"]["location"]
+
 
 class Licorne(models.Model):
     nom = models.CharField(max_length=50)
@@ -30,9 +39,21 @@ class Etape(models.Model):
       on_delete=models.CASCADE
     )
     media = models.CharField(max_length=200, null=True, blank=True)
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
 
     def __str__(self):
         return ("Etape de %s (%s)" % (self.licorne.nom, self.etape_date))
+
+    def save(self, *args, **kwargs):
+        if self.localisation:
+            coord = geocode(self.localisation)
+            self.latitude = coord["lat"]
+            self.longitude = coord["lng"]
+        else:
+            self.latitude = None
+            self.longitude = None
+        super(Etape, self).save(*args, **kwargs)
 
 from django.contrib.auth.models import AbstractUser
 

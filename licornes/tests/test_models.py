@@ -9,6 +9,13 @@ from licornes.models import Etape
 
 from datetime import date
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except (ValueError, TypeError):
+        return False
+
 class LicorneModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -76,6 +83,7 @@ class EtapeModelTest(TestCase):
         Licorne.objects.create(nom='Chamallow', identifiant='77898787676867', createur=u)
         l = Licorne.objects.get(identifiant='77898787676867')
         Etape.objects.create(licorne=l, auteur=u)
+        Etape.objects.create(licorne=l, auteur=u, localisation="Paris, France")
 
     def test_object_name(self):
         licorne = Licorne.objects.get(identifiant='77898787676867')
@@ -92,6 +100,17 @@ class EtapeModelTest(TestCase):
         etape = Etape.objects.get(id=1)
         max_length = etape._meta.get_field('media').max_length
         self.assertEquals(max_length, 200)
+
+    def test_latitude_est_numerique(self):
+        etape = Etape.objects.get(id=2)
+        lat = etape.latitude
+        self.assertTrue(is_number(lat))
+
+    def test_longitude_est_numerique(self):
+        etape = Etape.objects.get(id=2)
+        long = etape.latitude
+        self.assertTrue(is_number(long))
+
 
 class UserModelTest(TestCase):
     @classmethod

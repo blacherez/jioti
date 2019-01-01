@@ -26,3 +26,6 @@ MAPBOX_ACCESS_TOKEN = ""
 
 # Google API key
 GOOGLE_KEY = ""
+
+# Google API key sans restriction (conserver secrète)
+GOOGLE_SECRET = ""
