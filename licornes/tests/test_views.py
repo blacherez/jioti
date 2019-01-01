@@ -60,6 +60,16 @@ class IndexViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("+ Ajouter une licorne" in str(response.content))
 
+    def test_div_map_present(self):
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        divs = soup.find_all("div")
+        div_map_in_divs = False
+        for d in divs:
+            if d.has_attr("id") and d["id"] == "map":
+                div_map_in_divs = True
+        self.assertTrue(div_map_in_divs)
+
 
     # def test_lists_all_authors(self):
     #     # Get second page and confirm it has (exactly) remaining 3 items
