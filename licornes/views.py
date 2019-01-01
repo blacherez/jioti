@@ -45,6 +45,13 @@ def etape(request, licorne=""):
     else:
         if not licorne:
             raise Http404("Un identifiant de licorne doit être fourni.")
+        else:
+            try:
+                licorne_active = Licorne.objects.get(identifiant=licorne)
+            except Licorne.DoesNotExist:
+                template = loader.get_template('licornes/creer.html')
+                context = {}
+                return HttpResponse(template.render(context, request))
         form = EtapeForm()
     context = {"form": form}
     template = loader.get_template('licornes/etape_form.html')
