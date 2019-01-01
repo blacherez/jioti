@@ -6,6 +6,8 @@ from django.urls import reverse
 from licornes.models import Licorne
 from licornes.models import User
 
+from bs4 import BeautifulSoup
+
 class IndexViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -96,3 +98,57 @@ class AddViewTest(TestCase):
         self.assertTrue("Identifiant" in str(response.content))
         self.assertTrue("Photo" in str(response.content))
         self.assertFalse("+ Ajouter une licorne" in str(response.content))
+
+class EtapeViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        pass
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/licornes/etape/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('etape'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('etape'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'licornes/etape_form.html')
+
+    def test_view_titre(self):
+        response = self.client.get(reverse('etape'))
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, features="html.parser")
+        h1 = soup.h1.string
+        self.assertEqual(h1, "Ajouter une étape")
+
+    def test_view_fields_presents(self):
+        response = self.client.get(reverse('etape'))
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, features="html.parser")
+        lbls = soup.find_all("label")
+        labels = []
+        for l in lbls:
+            labels.append(l["for"])
+        self.assertTrue("id_licorne" in labels)
+        self.assertTrue("id_localisation" in labels)
+        self.assertTrue("id_current" in labels)
+        self.assertTrue("id_auteur" in labels)
+        self.assertTrue("id_media" in labels)
+
+    def test_view_autocomplete_present(self):
+        response = self.client.get(reverse('etape'))
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, features="html.parser")
+        scripts = soup.find_all("script")
+        autocomplete_in_src = False
+        #print(scripts)
+        for s in scripts:
+            if s.has_attr("src"):
+                src = s["src"]
+                if "autocomplete.js" in src:
+                    autocomplete_in_src = True
+            #autocomplete_in_src = True
+        self.assertTrue(autocomplete_in_src)
