@@ -70,6 +70,16 @@ class IndexViewTest(TestCase):
                 div_map_in_divs = True
         self.assertTrue(div_map_in_divs)
 
+    def test_liens_vers_licornes_presents(self):
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        a = soup.find_all("a")
+        lien_vers_1_dans_liens = False
+        for l in a:
+            if "licorne/1" in l["href"]:
+                lien_vers_1_dans_liens = True
+                break
+        self.assertTrue(lien_vers_1_dans_liens)
 
     # def test_lists_all_authors(self):
     #     # Get second page and confirm it has (exactly) remaining 3 items
@@ -208,3 +218,101 @@ class EtapeViewTest(TestCase):
                 add_in_href = True
         self.assertTrue(add_in_href)
         self.assertTrue(f"{self.identifiant_inexistant}" in str(response.content))
+
+class LicorneViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # On crée des utilisateurs et on leur attribue x licornes à chacun
+        number_of_creators = 2
+        number_of_licornes = 3
+        cls.total_licornes = number_of_creators * number_of_licornes
+
+        cls.licornes_de_test = []
+
+        for user_id in range(number_of_creators):
+            User.objects.create(username=f"utilisateur {user_id}")
+            u = User.objects.get(username=f"utilisateur {user_id}")
+
+            for licorne_id in range(number_of_licornes):
+                Licorne.objects.create(
+                    nom=f'Licorne {licorne_id} de {user_id}',
+                    identifiant=f'{user_id}-{licorne_id}',
+                    createur=u,
+                    )
+                cls.licornes_de_test.append(Licorne.objects.latest("id"))
+
+    def test_view_url_exists_at_desired_location(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(f'/licornes/licorne/{id_lic}')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'licornes/licorne.html')
+
+    def test_licornes_are_present(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('meslicornes' in response.context)
+        #self.assertTrue(response.context['meslicornes'] == True)
+        self.assertTrue(len(response.context['meslicornes']) == self.total_licornes)
+        #print(str(response.content))
+        self.assertInHTML("Licorne 0 de 0", str(response.content))
+
+    def test_titres_present(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Mes licornes" in str(response.content))
+        self.assertInHTML("Trajet", str(response.content))
+
+    def test_bouton_ajouter_present(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("+ Ajouter une licorne" in str(response.content))
+
+    def test_div_map_present(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        divs = soup.find_all("div")
+        div_map_in_divs = False
+        for d in divs:
+            if d.has_attr("id") and d["id"] == "map":
+                div_map_in_divs = True
+        self.assertTrue(div_map_in_divs)
+
+    def test_liens_vers_licornes_presents(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        a = soup.find_all("a")
+        lien_vers_1_dans_liens = False
+        for l in a:
+            if "licorne/1" in l["href"]:
+                lien_vers_1_dans_liens = True
+                break
+        self.assertTrue(lien_vers_1_dans_liens)
+
+    def test_une_licorne_est_active(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(reverse('licorne', args=[id_lic]))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        a = soup.find_all("a")
+        active_in_a_class = 0
+        for l in a:
+            if l.has_attr("class"):
+                classes = l["class"]
+                if "active" in classes:
+                    active_in_a_class += 1
+        self.assertTrue(active_in_a_class)
+        self.assertEqual(active_in_a_class, 1)

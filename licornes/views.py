@@ -62,6 +62,17 @@ def etape(request, licorne=""):
             template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
 
+def licorne(request, licorne_id):
+    meslicornes = Licorne.objects.order_by("-creation_date")
+    template = loader.get_template('licornes/licorne.html')
+    context = {
+        'meslicornes': meslicornes,
+        'mapbox_access_token': settings.MAPBOX_ACCESS_TOKEN,
+        'active_id': licorne_id,
+        'google_key': settings.GOOGLE_KEY,
+    }
+    return HttpResponse(template.render(context, request))
+
 class Add(CreateView):
     model = Licorne
     fields = ['nom', 'identifiant', 'photo', 'createur']

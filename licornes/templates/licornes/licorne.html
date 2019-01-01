@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenu %}
+      <div class="row pt-5">
+        <div class="col-1"></div>
+        <div class="col-3">
+          <h1>Mes licornes</h1>
+          <div class="list-group">
+          {% for licorne in meslicornes %}
+          {% if licorne.id == active_id %}
+            <a href="{% url "licorne" licorne.id %}" class="list-group-item active">
+          {% else %}
+            <a href="{% url "licorne" licorne.id %}" class="list-group-item">
+          {% endif %}
+              <div class="media">
+                  {% if licorne.photo %}
+                    <img class="mr-3" src="{{ licorne.photo }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
+                    {% else %}
+                    <img class="mr-3" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
+                  {% endif %}
+                <div class="media-body">
+                  <h2 class="mt-0">{{ licorne }}</h2>
+                  <p>Créateur : {{ licorne.createur.CommonName }}</p>
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+          <div class="pt-3">
+            <a href="{% url "add" %}"><button class="btn btn-primary btn-lg rounded">+ Ajouter une licorne</button></a>
+          </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+          <h1>Trajet</h1>
+          <div id='map' style='height: 100%'></div>
+
+        </div>
+        <div class="col-1"></div>
+      </div>
+
+      <script type="text/javascript">
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: {lat: 43.2951, lng : -0.370797},
+          mapTypeId: 'terrain'
+        });
+
+        var etapes = [
+          {lat: 43.2951, lng : -0.370797},
+          {lat: 37.772, lng: -122.214},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}
+        ];
+        var flightPath = new google.maps.Polyline({
+          path: etapes,
+          geodesic: false,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+      }
+      </script>
+
+      <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_key }}&callback=initMap">
+    </script>
+{% endblock %}
