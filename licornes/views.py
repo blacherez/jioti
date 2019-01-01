@@ -65,11 +65,15 @@ def etape(request, licorne=""):
 def licorne(request, licorne_id):
     meslicornes = Licorne.objects.order_by("-creation_date")
     template = loader.get_template('licornes/licorne.html')
+    etapes_parcourues = Etape.objects.filter(licorne=licorne_id).order_by("-etape_date")
+    etapes = []
+    for e in etapes_parcourues:
+        etapes.append(e.getCoords())
     context = {
         'meslicornes': meslicornes,
-        'mapbox_access_token': settings.MAPBOX_ACCESS_TOKEN,
         'active_id': licorne_id,
         'google_key': settings.GOOGLE_KEY,
+        'etapes': etapes,
     }
     return HttpResponse(template.render(context, request))
 

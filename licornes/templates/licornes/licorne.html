@@ -49,11 +49,9 @@
         });
 
         var etapes = [
-          {lat: 43.2951, lng : -0.370797},
-          {lat: 37.772, lng: -122.214},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}
+          {% for etape in etapes %}
+            {{ etape }},
+          {% endfor %}
         ];
         var flightPath = new google.maps.Polyline({
           path: etapes,

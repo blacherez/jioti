@@ -39,11 +39,14 @@ class Etape(models.Model):
       on_delete=models.CASCADE
     )
     media = models.CharField(max_length=200, null=True, blank=True)
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return ("Etape de %s (%s)" % (self.licorne.nom, self.etape_date))
+
+    def getCoords(self):
+        return '{lat: %s, lng : %s}' % (self.latitude, self.longitude)
 
     def save(self, *args, **kwargs):
         if self.localisation:
