@@ -104,6 +104,7 @@ class EtapeViewTest(TestCase):
     def setUpTestData(cls):
         pass
 
+    # Version sans argument
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/licornes/etape/')
         self.assertEqual(response.status_code, 200)
@@ -152,3 +153,24 @@ class EtapeViewTest(TestCase):
                     autocomplete_in_src = True
             #autocomplete_in_src = True
         self.assertTrue(autocomplete_in_src)
+
+    # Version avec argument
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/licornes/etape/666/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('etape', args=["666"]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('etape', args=["666"]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'licornes/etape_form.html')
+    #
+    # def test_view_titre(self):
+    #     response = self.client.get(reverse('etape', args=["666"]))
+    #     self.assertEqual(response.status_code, 200)
+    #     soup = BeautifulSoup(response.content, features="html.parser")
+    #     h1 = soup.h1.string
+    #     self.assertEqual(h1, "Ajouter une étape")
