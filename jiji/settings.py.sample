@@ -12,12 +12,12 @@ SECRET_KEY = ''
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'jioti',
-        'USER': 'admin_jioti',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'USER': 'jioti_admin',
+        'PASSWORD': 'XXX',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
