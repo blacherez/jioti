@@ -81,13 +81,23 @@ class IndexViewTest(TestCase):
                 break
         self.assertTrue(lien_vers_1_dans_liens)
 
-    # def test_lists_all_authors(self):
-    #     # Get second page and confirm it has (exactly) remaining 3 items
-    #     response = self.client.get(reverse('authors')+'?page=2')
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTrue('is_paginated' in response.context)
-    #     self.assertTrue(response.context['is_paginated'] == True)
-    #     self.assertTrue(len(response.context['author_list']) == 3)
+    def test_aucune_licorne_nest_active(self):
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        a = soup.find_all("a")
+        active_in_a_class = 0
+        for l in a:
+            if l.has_attr("class"):
+                classes = l["class"]
+                if "active" in classes:
+                    active_in_a_class += 1
+        self.assertFalse(active_in_a_class)
+
+    def test_pas_de_polyline(self):
+        response = self.client.get(reverse('index'))
+        self.assertFalse("google.maps.Polyline" in str(response.content))
+
+
 class AddViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
