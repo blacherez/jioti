@@ -5,3 +5,4 @@ geckodriver.log
 jiji/settings.py
 private.md
 .coverage
+tmp/
