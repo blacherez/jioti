@@ -52,9 +52,9 @@ def etape(request, licorne=""):
                 template = loader.get_template('licornes/creer.html')
                 context = {"licorne": licorne}
                 return HttpResponse(template.render(context, request))
-        form = EtapeForm()
-    context = {"form": form}
-    template = loader.get_template('licornes/etape_form.html')
+            form = EtapeForm(initial={'licorne': licorne_active})
+            context = {"form": form, "licorne": licorne_active}
+            template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
 
 class Add(CreateView):
