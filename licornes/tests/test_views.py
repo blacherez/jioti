@@ -151,11 +151,19 @@ class EtapeViewTest(TestCase):
         labels = []
         for l in lbls:
             labels.append(l["for"])
-        self.assertTrue("id_licorne" in labels)
         self.assertTrue("id_localisation" in labels)
         self.assertTrue("id_current" in labels)
         self.assertTrue("id_auteur" in labels)
         self.assertTrue("id_media" in labels)
+
+        # Champ input hidden pour la licorne
+        inputs = soup.find_all("input")
+        licorne_in_hidden_field = False
+        for i in inputs:
+            if i["type"] == "hidden" and i["name"] == "licorne":
+                licorne_in_hidden_field = True
+                break
+        self.assertTrue(licorne_in_hidden_field)
 
     def test_view_autocomplete_present(self):
         response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
