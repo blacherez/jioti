@@ -6,3 +6,4 @@ jiji/settings.py
 private.md
 .coverage
 tmp/
+licornes/static/media/

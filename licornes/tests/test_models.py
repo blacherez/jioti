@@ -99,7 +99,7 @@ class EtapeModelTest(TestCase):
     def test_max_length_media(self):
         etape = Etape.objects.get(id=1)
         max_length = etape._meta.get_field('media').max_length
-        self.assertEquals(max_length, 200)
+        self.assertEquals(max_length, None)
 
     def test_latitude_est_numerique(self):
         etape = Etape.objects.get(id=2)
