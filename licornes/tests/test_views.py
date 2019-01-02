@@ -47,7 +47,19 @@ class IndexViewTest(TestCase):
         #self.assertTrue(response.context['meslicornes'] == True)
         self.assertTrue(len(response.context['meslicornes']) == self.total_licornes)
         #print(str(response.content))
-        self.assertInHTML("Licorne 0 de 0", str(response.content))
+        self.assertTrue("Licorne 0 de 0" in str(response.content))
+
+    def test_licornes_ont_badge(self):
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        h2s = soup.find_all("h2")
+        badges_de_licornes = 0
+        for h2 in h2s:
+            if h2.span and "badge" in h2.span["class"]:
+                badges_de_licornes += 1
+        self.assertTrue(badges_de_licornes)
+        self.assertEqual(badges_de_licornes, self.total_licornes)
+
 
     def test_titres_present(self):
         response = self.client.get(reverse('index'))
@@ -326,3 +338,14 @@ class LicorneViewTest(TestCase):
                     active_in_a_class += 1
         self.assertTrue(active_in_a_class)
         self.assertEqual(active_in_a_class, 1)
+
+    def test_licornes_ont_badge(self):
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        h2s = soup.find_all("h2")
+        badges_de_licornes = 0
+        for h2 in h2s:
+            if h2.span and "badge" in h2.span["class"]:
+                badges_de_licornes += 1
+        self.assertTrue(badges_de_licornes)
+        self.assertEqual(badges_de_licornes, self.total_licornes)
