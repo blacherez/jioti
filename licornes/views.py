@@ -83,5 +83,5 @@ def licorne(request, licorne_id):
 
 class Add(CreateView):
     model = Licorne
-    fields = ['nom', 'identifiant', 'photo', 'createur']
+    fields = ['nom', 'identifiant', 'image', 'createur']
     success_url = reverse_lazy('index')

@@ -41,10 +41,9 @@ class LicorneModelTest(TestCase):
         max_length = licorne._meta.get_field('nom').max_length
         self.assertEquals(max_length, 50)
 
-    def test_max_length_photo(self):
+    def test_no_photo_field(self):
         licorne = Licorne.objects.get(identifiant=self.identifiant_utilise)
-        max_length = licorne._meta.get_field('photo').max_length
-        self.assertEquals(max_length, 200)
+        self.assertFalse(hasattr(licorne, "photo"))
 
     def test_max_length_identifiant(self):
         licorne = Licorne.objects.get(identifiant=self.identifiant_utilise)

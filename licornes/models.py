@@ -19,7 +19,8 @@ def geocode(lieu):
 class Licorne(models.Model):
     nom = models.CharField(max_length=50)
     creation_date = models.DateField('Date de création', default=date.today)
-    photo = models.CharField(max_length=200, null=True, blank=True)
+    #photo = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
     identifiant = models.CharField(max_length=50, unique=True)
     createur = models.ForeignKey(
       settings.AUTH_USER_MODEL,

@@ -11,3 +11,6 @@ ALLOWED_HOSTS = []
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = "/static/media/"
+MEDIA_ROOT = "licornes/static/media/"
