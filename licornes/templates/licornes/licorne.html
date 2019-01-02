@@ -20,7 +20,13 @@
                     <img class="mr-3" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
                   {% endif %}
                 <div class="media-body">
-                  <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">{{ licorne.getEtapes|length }}</span></h2>
+                  <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">
+                    {% if licorne.getEtapes|length >= 1 %}
+                      {{ licorne.getEtapes|length|add:"-1" }}
+                    {% else %}
+                      0
+                    {% endif %}
+                  </span></h2>
                   {% if licorne.id == active_id %}
                   <p>Créateur : {{ licorne.createur.CommonName }}</p>
                   {% endif %}
