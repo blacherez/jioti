@@ -49,7 +49,7 @@
               <div class="d-flex justify-content-end">
               {% for e in etapes %}
                 {% if forloop.counter0 != 0 %}
-                  <a class="btn btn-primary ml-2">Etape {{ forloop.counter0 }}</a>
+                  <a onclick="remplacerMap('{% url "media" e.id %}')" class="btn btn-primary ml-2">Etape {{ forloop.counter0 }}</a>
                 {% endif %}
               {% endfor %}
             </div>

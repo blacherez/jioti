@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from licornes.models import Licorne
 from licornes.models import User
+from licornes.models import Etape
 
 from bs4 import BeautifulSoup
 
@@ -265,8 +266,14 @@ class LicorneViewTest(TestCase):
 
     def test_view_url_exists_at_desired_location(self):
         id_lic = self.licornes_de_test[3].id
-        response = self.client.get(f'/licornes/licorne/{id_lic}')
+        response = self.client.get(f'/licornes/licorne/{id_lic}/')
         self.assertEqual(response.status_code, 200)
+
+    def test_view_url_redirected_if_no_trailing_slash(self):
+        id_lic = self.licornes_de_test[3].id
+        response = self.client.get(f'/licornes/licorne/{id_lic}')
+        self.assertEqual(response.status_code, 301)
+
 
     def test_view_url_accessible_by_name(self):
         id_lic = self.licornes_de_test[3].id
@@ -349,3 +356,40 @@ class LicorneViewTest(TestCase):
                 badges_de_licornes += 1
         self.assertTrue(badges_de_licornes)
         self.assertEqual(badges_de_licornes, self.total_licornes)
+
+class MediaViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.identifiant_existant = "777"
+        cls.identifiant_inexistant = "666"
+        User.objects.create(username=f"kuala")
+        u = User.objects.get(username=f"kuala")
+
+        Licorne.objects.create(
+            nom=f'Licorne de {u}',
+            identifiant=f'{cls.identifiant_existant}',
+            createur=u,
+            )
+        l = Licorne.objects.get(nom=f'Licorne de {u}')
+        e0 = Etape.objects.create(licorne=l, auteur=u, localisation="Paris, France")
+        e0.save()
+        e1 = Etape.objects.create(licorne=l, auteur=u, localisation="Berlin, Allemagne")
+        e1.save()
+        e2 = Etape.objects.create(licorne=l, auteur=u, localisation="San Francisco")
+        e2.save()
+
+    # Version avec argument
+    def test_view_url_exists_at_desired_location(self):
+        e1 = Etape.objects.get(localisation="Berlin, Allemagne")
+        u = '/licornes/media/%s/' % (e1.id)
+        response = self.client.get(u)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        e1 = Etape.objects.get(localisation="Berlin, Allemagne")
+        response = self.client.get(reverse('media', args=[e1.id]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_404_if_nonexistant_id(self):
+        response = self.client.get(reverse('media', args=[11111111]))
+        self.assertEqual(response.status_code, 404)
