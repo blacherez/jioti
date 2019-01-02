@@ -12,3 +12,6 @@ ALLOWED_HOSTS = ["jioti-staging.benoit.wtf"]
 
 STATIC_URL = 'http://jioti-static.benoit.wtf/staging/'
 STATIC_ROOT = '/home/blacherez/jioti-static.benoit.wtf/staging/'
+
+MEDIA_URL = 'http://jioti-static.benoit.wtf/staging/media/'
+MEDIA_ROOT = "/home/blacherez/jioti-static.benoit.wtf/staging/media/"
