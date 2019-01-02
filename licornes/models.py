@@ -42,7 +42,7 @@ class Etape(models.Model):
       settings.AUTH_USER_MODEL,
       on_delete=models.CASCADE
     )
-    media = models.CharField(max_length=200, null=True, blank=True)
+    media = models.TextField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
