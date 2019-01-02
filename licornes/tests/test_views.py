@@ -8,6 +8,8 @@ from licornes.models import User
 from licornes.models import Etape
 
 from bs4 import BeautifulSoup
+import re
+import os
 
 class IndexViewTest(TestCase):
     @classmethod
@@ -139,7 +141,7 @@ class AddViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("Nom" in str(response.content))
         self.assertTrue("Identifiant" in str(response.content))
-        self.assertTrue("Photo" in str(response.content))
+        self.assertFalse("Photo" in str(response.content))
         self.assertTrue("Image" in str(response.content))
         self.assertFalse("+ Ajouter une licorne" in str(response.content))
 
@@ -262,6 +264,7 @@ class LicorneViewTest(TestCase):
                     nom=f'Licorne {licorne_id} de {user_id}',
                     identifiant=f'{user_id}-{licorne_id}',
                     createur=u,
+                    image=f'{licorne_id}.png',
                     )
                 cls.licornes_de_test.append(Licorne.objects.latest("id"))
 
@@ -359,8 +362,23 @@ class LicorneViewTest(TestCase):
         self.assertEqual(badges_de_licornes, self.total_licornes)
 
     def test_licornes_ont_image(self):
-        l = Licorne.objects.all().last()
-        print("###", l.image)
+        response = self.client.get(reverse('index'))
+        soup = BeautifulSoup(response.content, features="html.parser")
+        lics = soup.find_all(attrs={"class": "list-group-item"})
+        lic_img = 0
+        bons_noms_dimages = 0
+        for l in lics:
+            numero = re.sub("Licorne ([0-9]+).*", "\\1", l.h2.text, re.M)[0:4].strip()
+            if l.img:
+                lic_img += 1
+                if os.path.basename(l.img["src"]) == f'{numero}.png':
+                    bons_noms_dimages += 1
+        self.assertTrue(lic_img)
+        self.assertTrue(bons_noms_dimages)
+        self.assertEqual(lic_img, len(lics))
+        self.assertEqual(bons_noms_dimages, len(lics))
+
+
 
 class MediaViewTest(TestCase):
     @classmethod
