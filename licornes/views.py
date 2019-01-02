@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 from django.template import loader
 from django.urls import reverse_lazy
+from django.urls import reverse
 
 from django.shortcuts import get_object_or_404
 
@@ -84,4 +85,7 @@ def licorne(request, licorne_id):
 class Add(CreateView):
     model = Licorne
     fields = ['nom', 'identifiant', 'image', 'createur']
-    success_url = reverse_lazy('index')
+    #success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse('etape',args=(self.object.identifiant,))
