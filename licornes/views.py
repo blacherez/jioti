@@ -4,10 +4,12 @@
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import Http404
+from django.http import JsonResponse
 
 from django.template import loader
 from django.urls import reverse_lazy
 
+from django.shortcuts import get_object_or_404
 
 from django.views.generic.edit import CreateView
 
@@ -61,6 +63,11 @@ def etape(request, licorne=""):
             }
             template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
+
+def media(request, etape_id):
+    e = get_object_or_404(Etape, id=etape_id)
+    data = {"media": e.media}
+    return JsonResponse(data)
 
 def licorne(request, licorne_id):
     meslicornes = Licorne.objects.order_by("-creation_date")
