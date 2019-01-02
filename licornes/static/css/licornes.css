@@ -17,7 +17,7 @@ body {
 }
 
 #menu {
-  background-image: url("/static/img/ligne.png");
+  background-image: url("../img/ligne.png");
 }
 
 .bouton-menu {
