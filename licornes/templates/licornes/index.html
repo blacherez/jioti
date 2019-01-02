@@ -6,13 +6,8 @@
         <div class="col-1"></div>
         <div class="col-3">
           <h1>Mes licornes</h1>
-          <div class="list-group">
-          {% for licorne in meslicornes %}
-          {% if licorne.id == active_id %}
-            <a href="{% url "licorne" licorne.id %}" class="list-group-item active">
-          {% else %}
+          <div class="list-group">{% for licorne in meslicornes %}
             <a href="{% url "licorne" licorne.id %}" class="list-group-item">
-          {% endif %}
               <div class="media">
                   {% if licorne.photo %}
                     <img class="mr-3" src="{{ licorne.photo }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
@@ -20,7 +15,7 @@
                     <img class="mr-3" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
                   {% endif %}
                 <div class="media-body">
-                  <h2 class="mt-0">{{ licorne }}</h2>
+                  <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">{{ licorne.getEtapes|length }}</span></h2>
                 </div>
               </div>
             </a>
