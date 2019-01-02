@@ -29,6 +29,10 @@ class Licorne(models.Model):
     def __str__(self):
         return self.nom
 
+    def getEtapes(self):
+        etapes = Etape.objects.filter(licorne=self).order_by("-etape_date")
+        return etapes
+
 class Etape(models.Model):
     licorne = models.ForeignKey(Licorne, on_delete=models.CASCADE)
     etape_date = models.DateField(default=date.today)

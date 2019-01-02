@@ -275,7 +275,7 @@ class LicorneViewTest(TestCase):
         #self.assertTrue(response.context['meslicornes'] == True)
         self.assertTrue(len(response.context['meslicornes']) == self.total_licornes)
         #print(str(response.content))
-        self.assertInHTML("Licorne 0 de 0", str(response.content))
+        self.assertTrue("Licorne 0 de 0" in str(response.content))
 
     def test_titres_present(self):
         id_lic = self.licornes_de_test[3].id

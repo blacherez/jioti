@@ -21,7 +21,7 @@ def index(request):
     #return HttpResponse("Hello, world. You're at the unicorns index.")
 
     #latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    meslicornes = Licorne.objects.order_by("creation_date")
+    meslicornes = Licorne.objects.order_by("-creation_date")
     template = loader.get_template('licornes/index.html')
     context = {
         'meslicornes': meslicornes,
@@ -66,14 +66,11 @@ def licorne(request, licorne_id):
     meslicornes = Licorne.objects.order_by("-creation_date")
     template = loader.get_template('licornes/licorne.html')
     etapes_parcourues = Etape.objects.filter(licorne=licorne_id).order_by("-etape_date")
-    etapes = []
-    for e in etapes_parcourues:
-        etapes.append(e.getCoords())
     context = {
         'meslicornes': meslicornes,
         'active_id': licorne_id,
         'google_key': settings.GOOGLE_KEY,
-        'etapes': etapes,
+        'etapes': etapes_parcourues,
     }
     return HttpResponse(template.render(context, request))
 
