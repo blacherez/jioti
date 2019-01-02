@@ -140,6 +140,7 @@ class AddViewTest(TestCase):
         self.assertTrue("Nom" in str(response.content))
         self.assertTrue("Identifiant" in str(response.content))
         self.assertTrue("Photo" in str(response.content))
+        self.assertTrue("Image" in str(response.content))
         self.assertFalse("+ Ajouter une licorne" in str(response.content))
 
 class EtapeViewTest(TestCase):
@@ -356,6 +357,10 @@ class LicorneViewTest(TestCase):
                 badges_de_licornes += 1
         self.assertTrue(badges_de_licornes)
         self.assertEqual(badges_de_licornes, self.total_licornes)
+
+    def test_licornes_ont_image(self):
+        l = Licorne.objects.all().last()
+        print("###", l.image)
 
 class MediaViewTest(TestCase):
     @classmethod
