@@ -42,7 +42,6 @@ class Etape(models.Model):
     etape_date = models.DateTimeField(default=timezone.now)
     localisation = models.CharField(max_length=200, null=True, blank=True,
                                     help_text="<br />Saisissez une ville ou un pays, le champ se complètera automatiquement.")
-    current = models.BooleanField(default=False)
     auteur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
       on_delete=models.CASCADE,

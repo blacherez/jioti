@@ -6,5 +6,5 @@ from licornes.models import Etape
 class EtapeForm(ModelForm):
     class Meta:
         model = Etape
-        fields = ['licorne', 'localisation', 'current', 'auteur', 'media']
+        fields = ['licorne', 'localisation', 'auteur', 'media']
         widgets = {'licorne': HiddenInput()}

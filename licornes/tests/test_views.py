@@ -198,7 +198,7 @@ class EtapeViewTest(TestCase):
         for l in lbls:
             labels.append(l["for"])
         self.assertTrue("id_localisation" in labels)
-        self.assertTrue("id_current" in labels)
+        self.assertFalse("id_current" in labels)
         self.assertTrue("id_auteur" in labels)
         self.assertTrue("id_media" in labels)
 

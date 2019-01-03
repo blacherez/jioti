@@ -110,6 +110,9 @@ class EtapeModelTest(TestCase):
         long = etape.latitude
         self.assertTrue(is_number(long))
 
+    def test_pas_attr_current(self):
+        etape = Etape.objects.get(id=2)
+        self.assertFalse(hasattr(etape, "current"))
 
 class UserModelTest(TestCase):
     @classmethod
