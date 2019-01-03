@@ -67,13 +67,15 @@ def etape(request, licorne=""):
 
 def media(request, etape_id):
     e = get_object_or_404(Etape, id=etape_id)
-    data = {"media": e.media}
+    data = {"media": e.media,
+            "date": e.etape_date.strftime("%d/%m/%Y"),
+            "localisation": e.localisation}
     return JsonResponse(data)
 
 def licorne(request, licorne_id):
     meslicornes = Licorne.objects.order_by("-creation_date")
     template = loader.get_template('licornes/licorne.html')
-    etapes_parcourues = Etape.objects.filter(licorne=licorne_id).order_by("-etape_date")
+    etapes_parcourues = Etape.objects.filter(licorne=licorne_id).order_by("etape_date")
     context = {
         'meslicornes': meslicornes,
         'active_id': licorne_id,

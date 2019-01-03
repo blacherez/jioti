@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date
 
+from django.utils import timezone
+
 # Create your models here.
 
 #from django.contrib.auth.models import User
@@ -37,7 +39,7 @@ class Licorne(models.Model):
 
 class Etape(models.Model):
     licorne = models.ForeignKey(Licorne, on_delete=models.CASCADE)
-    etape_date = models.DateField(default=date.today)
+    etape_date = models.DateTimeField(default=timezone.now)
     localisation = models.CharField(max_length=200, null=True, blank=True,
                                     help_text="<br />Saisissez une ville ou un pays, le champ se complètera automatiquement.")
     current = models.BooleanField(default=False)
