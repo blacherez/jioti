@@ -6,21 +6,7 @@
         <div class="col-1"></div>
         <div class="col-3">
           <h1>Mes licornes</h1>
-          <div class="list-group">{% for licorne in meslicornes %}
-            <a href="{% url "licorne" licorne.id %}" class="list-group-item">
-              <div class="media">
-                {% if licorne.image %}
-                  <img class="mr-3" src="{% get_media_prefix %}{{ licorne.image }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
-                  {% else %}
-                  <img class="mr-3" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
-                {% endif %}
-                <div class="media-body">
-                  <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">{{ licorne.getEtapes|length }}</span></h2>
-                </div>
-              </div>
-            </a>
-          {% endfor %}
-        </div>
+          {% include "partials/list_licornes_media.html" %}
           <div class="pt-3">
             <a href="{% url "add" %}"><button class="btn btn-primary btn-lg rounded">+ Ajouter une licorne</button></a>
           </div>
