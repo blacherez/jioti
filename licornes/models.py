@@ -17,14 +17,15 @@ def geocode(lieu):
 
 
 class Licorne(models.Model):
-    nom = models.CharField(max_length=50)
+    nom = models.CharField(max_length=50, help_text="Choisissez un nom pour votre licorne.")
     creation_date = models.DateField('Date de création', default=date.today)
     #photo = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
-    identifiant = models.CharField(max_length=50, unique=True)
+    image = models.ImageField(null=True, blank=True, help_text="Mettez une photo de votre licorne, ou un avatar.")
+    identifiant = models.CharField(max_length=50, unique=True, help_text="Saisissez l'identifiant qui figure sur votre licorne.")
     createur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
-      on_delete=models.CASCADE
+      on_delete=models.CASCADE,
+      help_text="Ce champ n'existe que pendant le temps de développement. Par la suite, il sera rempli automatiquement."
     )
 
     def __str__(self):
@@ -37,13 +38,16 @@ class Licorne(models.Model):
 class Etape(models.Model):
     licorne = models.ForeignKey(Licorne, on_delete=models.CASCADE)
     etape_date = models.DateField(default=date.today)
-    localisation = models.CharField(max_length=200, null=True, blank=True)
+    localisation = models.CharField(max_length=200, null=True, blank=True,
+                                    help_text="<br />Saisissez une ville ou un pays, le champ se complètera automatiquement.")
     current = models.BooleanField(default=False)
     auteur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
-      on_delete=models.CASCADE
+      on_delete=models.CASCADE,
+      help_text="Ce champ n'existe que pendant le temps de développement. Par la suite, il sera rempli automatiquement."
     )
-    media = models.TextField(null=True, blank=True)
+    media = models.TextField(null=True, blank=True,
+                             help_text="Ecrivez ici le code embed d'une vidéo.")
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
