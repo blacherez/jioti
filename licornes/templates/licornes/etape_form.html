@@ -45,7 +45,14 @@
     {% endif %}
   </span>
     <h1>Ajouter une étape pour {{ licorne }}</h1>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
+    <div class="alert alert-primary">
+      Si votre navigateur le permet, nous essayons de vous géolocaliser, mais vous pouvez changer la ville.
+      A noter que si l'appareil que vous utilisez ne possède pas de véritable capteur GPS,
+      la localisation peut être assez délirante (adresse de votre FAI par exemple).<br>
+      <span class="text-danger">Nous n'accédons pas à votre localisation exacte, nous conservons seulement
+        la ville indiquée dans le formulaire.</span>
+    </div>
     <form method="post" role="form" class="form-horizontal" action="{% url 'etape' %}" >
       {% csrf_token %}
       {{ form.as_p }}
