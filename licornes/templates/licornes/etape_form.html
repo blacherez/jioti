@@ -1,8 +1,40 @@
-{% extends "base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Benoit Lacherez">
 
-{% block contenu %}
-<div class="row pt-5">
+    {% block title %}<title>J'irai où tu iras</title>{% endblock %}
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/licornes.css" %}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Kalam&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- Mapbox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+  </head>
+
+  <body cz-shortcut-listen="true">
+    <div role="main" class="container-fluid">
+      <div class="row haut  mt-0 pt-0">
+          <div class="col-1">
+          </div>
+          <div class="col-10" id="entete">
+            J'irai où
+            <a href="{% url "index" %}"><img src="{% static "img/logo.png" %}" height="200" width="200"/></a>
+            Tu iras
+          </div>
+          <div class="col-1"></div>
+      </div> <!-- /row -->
+      <div class="row pt-5">
   <div class="col-4"></div>
   <div class="col-4">
     <h1>Ajouter une étape</h1>
@@ -57,4 +89,15 @@ function maPosition(position) {
 if(navigator.geolocation)
   navigator.geolocation.getCurrentPosition(maPosition);
 </script>
-{% endblock %}
+</div><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="{% static "js/jquery-slim.min.js" %}"><\/script>')</script>
+<script src="{% static "js/popper.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/contenus.js" %}"></script>
+
+</body></html>
