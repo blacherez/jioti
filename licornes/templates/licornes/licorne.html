@@ -30,7 +30,6 @@
         </div>
         <div class="col-1"></div>
       </div>
-
       <script type="text/javascript">
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -44,6 +43,7 @@
             {{ etape.getCoords }},
           {% endfor %}
         ];
+
         var flightPath = new google.maps.Polyline({
           path: etapes,
           geodesic: false,
@@ -53,10 +53,19 @@
         });
 
         flightPath.setMap(map);
-      }
+        var path = [
+          {% for etape in etapes %}
+            new google.maps.LatLng(
+              parseFloat("{{ etape.latitude }}".replace(',', '.')),
+              parseFloat("{{ etape.longitude }}".replace(',', '.'))),
+          {% endfor %}
+        ]
+        var distance_parcourue = google.maps.geometry.spherical.computeLength(path) / 1000;
+        document.getElementById('distance_parcourue').innerHTML = distance_parcourue.toFixed(0) + " km";
+    }
       </script>
 
       <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_key }}&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_key }}&callback=initMap&libraries=geometry">
     </script>
 {% endblock %}

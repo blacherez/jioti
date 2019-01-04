@@ -16,6 +16,7 @@
         <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">{{ licorne.getEtapes|length }}</span></h2>
         {% if licorne.id == active_id %}
         <p>Créateur : {{ licorne.createur.CommonName }}</p>
+        <p id="distance_parcourue"></p>
         {% endif %}
       </div>
     </div>
