@@ -35,15 +35,15 @@
           <div class="col-1"></div>
       </div> <!-- /row -->
       <div class="row pt-5">
-  <div class="col-4"></div>
-  <div class="col-4">
+  <div class="col"></div>
+  <div class="col">
     <span class="offset-4">
     {% if licorne.image %}
       <img class="mr-3 rounded-circle" src="{% get_media_prefix %}{{ licorne.image }}" alt="{{ licorne }}" height="64" width="64" >
       {% else %}
       <img class="mr-3 rounded-circle" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64">
     {% endif %}
-  </span>
+    </span>
     <h1>Ajouter une étape pour {{ licorne }}</h1>
     {% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
     <div class="alert alert-primary">
@@ -59,8 +59,15 @@
       <input type="submit" value="Enregistrer">
     </form>
   </div>
-  <div class="col-4"></div>
+  <div class="col"></div>
 </div>
+<div class="row footer">
+  <div class="col-md-6 offset-md-3">
+    &copy; La Troupe de Margot, 2018
+  </div>
+</div>
+</div>
+
     <!-- Include Google Maps JS API -->
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key={{ google_key }}"></script>
