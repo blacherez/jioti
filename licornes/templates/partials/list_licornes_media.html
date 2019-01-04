@@ -8,9 +8,9 @@
 {% endif %}
     <div class="media">
         {% if licorne.image %}
-          <img class="mr-3" src="{% get_media_prefix %}{{ licorne.image }}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
+          <img class="mr-3 rounded-circle" src="{% get_media_prefix %}{{ licorne.image }}" alt="{{ licorne }}" height="64" width="64">
           {% else %}
-          <img class="mr-3" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64" class="rounded-circle">
+          <img class="mr-3 rounded-circle" src="{% static "img/generic.png" %}" alt="{{ licorne }}" height="64" width="64">
         {% endif %}
       <div class="media-body">
         <h2 class="mt-0">{{ licorne }} <span class="badge badge-pill badge-success">{{ licorne.getEtapes|length }}</span></h2>
