@@ -3,21 +3,21 @@
 
 {% block contenu %}
       <div class="row pt-5">
-        <div class="col-1"></div>
-        <div class="col-3">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
           <h1>Mes licornes</h1>
           {% include "partials/list_licornes_media.html" %}
           <div class="pt-3">
             <a href="{% url "add" %}"><button class="btn btn-primary btn-lg rounded">+ Ajouter une licorne</button></a>
           </div>
         </div>
-        <div class="col-1"></div>
-        <div class="col-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
           <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
               <h1 id="etapes">Trajet</h1>
             </div>
-            <div class="col-8">
+            <div class="col-md-8">
               <div class="d-flex justify-content-end">
               {% for e in etapes %}
                   <a onclick="$('#etapes').replaceWith('<h3 id=\'etapes\'>Etape {{ forloop.counter }}</h3>');remplacerMap('{% url "media" e.id %}')" class="btn btn-primary ml-2">Etape {{ forloop.counter }}</a>
@@ -28,7 +28,7 @@
           <div id='map' style='height: 100%'></div>
 
         </div>
-        <div class="col-1"></div>
+        <div class="col-md-1"></div>
       </div>
       <script type="text/javascript">
       function initMap() {
@@ -68,4 +68,5 @@
       <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ google_key }}&callback=initMap&libraries=geometry">
     </script>
+
 {% endblock %}
