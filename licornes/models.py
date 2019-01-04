@@ -45,10 +45,10 @@ class Etape(models.Model):
     auteur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
       on_delete=models.CASCADE,
-      help_text="Ce champ n'existe que pendant le temps de développement. Par la suite, il sera rempli automatiquement."
+      help_text="<br />Ce champ n'existe que pendant le temps de développement. Par la suite, il sera rempli automatiquement."
     )
     media = models.TextField(null=True, blank=True,
-                             help_text="Ecrivez ici le code embed d'une vidéo.")
+                             help_text="<br />Ecrivez ici le code embed d'une vidéo.")
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
