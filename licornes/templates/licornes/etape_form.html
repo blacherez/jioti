@@ -16,11 +16,51 @@
   </div>
   <div class="col-4"></div>
 </div>
-
     <!-- Include Google Maps JS API -->
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key={{ google_key }}"></script>
 
     <!-- Custom JS code to bind to Autocomplete API -->
     <script type="text/javascript" src="{% static "js/autocomplete.js" %}"></script>
+    <script>
+function maPosition(position) {
+  var infopos = "Position déterminée :\n";
+  infopos += "Latitude : "+position.coords.latitude +"\n";
+  infopos += "Longitude: "+position.coords.longitude+"\n";
+  //document.getElementById("infoposition").innerHTML = infopos;
+  var input = position.coords.latitude + "," + position.coords.longitude;
+  geocodeLatLng(input);
+}
+
+function geocodeLatLng(input) {
+  var geocoder = new google.maps.Geocoder;
+  var latlngStr = input.split(',', 2);
+  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  //latlng = {lat: parseFloat("43,604652"), lng: parseFloat("1,444209")};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === 'OK') {
+      if (results[0]) {
+      var address = results[0].address_components;
+      for (var p = address.length-1; p >= 0; p--) {
+        if (address[p].types.indexOf("country") != -1) {
+          var pays = address[p].long_name;
+        // document.getElementById('postcode').innerHTML= address[p].long_name;
+        }
+        if (address[p].types.indexOf("locality") != -1) {
+          var ville = address[p].long_name;
+        }
+      }
+      document.getElementById('id_localisation').value = ville + ", " + pays;
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+if(navigator.geolocation)
+  navigator.geolocation.getCurrentPosition(maPosition);
+</script>
 {% endblock %}
