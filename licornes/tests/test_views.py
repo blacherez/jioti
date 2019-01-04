@@ -183,11 +183,12 @@ class EtapeViewTest(TestCase):
         self.assertTemplateUsed(response, 'licornes/etape_form.html')
 
     def test_view_titre(self):
+        licorne = Licorne.objects.get(identifiant=self.identifiant_existant)
         response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, features="html.parser")
         h1 = soup.h1.string
-        self.assertEqual(h1, "Ajouter une étape")
+        self.assertEqual(h1, "Ajouter une étape pour %s" % (licorne))
 
     def test_view_fields_presents(self):
         response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
