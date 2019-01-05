@@ -35,6 +35,7 @@ def index(request):
 
 def etape(request, licorne=""):
     # if this is a POST request we need to process the form data
+    template = loader.get_template('licornes/etape_form.html')
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = EtapeForm(request.POST)
@@ -44,6 +45,14 @@ def etape(request, licorne=""):
             form.save()
             # redirect to a new URL:
             return HttpResponseRedirect(reverse_lazy("index"))
+        else:
+            licorne_active = Licorne.objects.get(identifiant=licorne)
+            context = {
+                "form": form,
+                "licorne": licorne_active,
+                'google_key': settings.GOOGLE_KEY,
+                "error_message": form.errors,
+            }
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -62,7 +71,6 @@ def etape(request, licorne=""):
                 "licorne": licorne_active,
                 'google_key': settings.GOOGLE_KEY,
             }
-            template = loader.get_template('licornes/etape_form.html')
     return HttpResponse(template.render(context, request))
 
 def media(request, etape_id):
