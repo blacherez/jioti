@@ -158,6 +158,8 @@ class EtapeViewTest(TestCase):
             identifiant=f'{cls.identifiant_existant}',
             createur=u,
             )
+        cls.u = u
+        cls.l = Licorne.objects.get(identifiant=cls.identifiant_existant)
 
     # On ne peut plus utiliser la version sans argument
     def test_view_url_returns_404_if_no_licorne(self):
@@ -245,6 +247,42 @@ class EtapeViewTest(TestCase):
                 add_in_href = True
         self.assertTrue(add_in_href)
         self.assertTrue(f"{self.identifiant_inexistant}" in str(response.content))
+
+    def test_form_etape_valeur_initiale_licorne(self):
+        response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
+        self.assertEqual(response.status_code, 200)
+        licorne = Licorne.objects.get(identifiant=self.identifiant_existant)
+        self.assertEqual(response.context['form'].initial['licorne'], licorne)
+
+    def test_redirects_to_index_on_success(self):
+        #response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
+        #self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('etape', args=[self.l.identifiant]), {"localisation": "Pau, France", "auteur": self.u.id, "media": "Tagalok", "licorne": self.l.id})
+        self.assertRedirects(response, reverse('index'))
+
+    def test_form_invalid_licorne(self):
+        wrong_id = 78787897873
+        response = self.client.post(reverse('etape', args=[self.l.identifiant]), {"localisation": "Pau, France", "auteur": self.u.id, "media": "Tagalok", "licorne": wrong_id})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'licorne', 'Sélectionnez un choix valide. Ce choix ne fait pas partie de ceux disponibles.')
+
+    def test_form_invalid_localisation(self):
+        response = self.client.post(reverse('etape', args=[self.l.identifiant]), {"localisation": "", "auteur": self.u.id, "media": "Tagalok", "licorne": self.l.id})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'localisation', 'Ce champ est obligatoire.')
+
+    def test_form_invalid_auteur(self):
+        wrong_id = 78787897873
+        response = self.client.post(reverse('etape', args=[self.l.identifiant]), {"localisation": "Pau, France", "auteur": wrong_id, "media": "Tagalok", "licorne": self.l.id})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'auteur', 'Sélectionnez un choix valide. Ce choix ne fait pas partie de ceux disponibles.')
+    # def test_form_invalid_renewal_date_future(self):
+    #     login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+    #     invalid_date_in_future = datetime.date.today() + datetime.timedelta(weeks=5)
+    #     response = self.client.post(reverse('renew-book-librarian', kwargs={'pk': self.test_bookinstance1.pk}), {'renewal_date': invalid_date_in_future})
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertFormError(response, 'form', 'renewal_date', 'Invalid date - renewal more than 4 weeks ahead')
+
 
 class LicorneViewTest(TestCase):
     @classmethod
