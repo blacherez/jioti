@@ -40,7 +40,7 @@ class Licorne(models.Model):
 class Etape(models.Model):
     licorne = models.ForeignKey(Licorne, on_delete=models.CASCADE)
     etape_date = models.DateTimeField(default=timezone.now)
-    localisation = models.CharField(max_length=200, null=True, blank=True,
+    localisation = models.CharField(max_length=200,
                                     help_text="<br />Saisissez une ville ou un pays, le champ se complètera automatiquement.")
     auteur = models.ForeignKey(
       settings.AUTH_USER_MODEL,
