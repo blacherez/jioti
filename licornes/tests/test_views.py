@@ -7,6 +7,8 @@ from licornes.models import Licorne
 from licornes.models import User
 from licornes.models import Etape
 
+from django.conf import settings
+
 from bs4 import BeautifulSoup
 import re
 import os
@@ -116,7 +118,18 @@ class IndexViewTest(TestCase):
 class AddViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        pass
+        cls.identifiant_existant = "777"
+        cls.identifiant_inexistant = "666"
+        User.objects.create(username=f"kuala")
+        u = User.objects.get(username=f"kuala")
+
+        Licorne.objects.create(
+            nom=f'Licorne de {u}',
+            identifiant=f'{cls.identifiant_existant}',
+            createur=u,
+            )
+        cls.u = u
+        cls.l = Licorne.objects.get(identifiant=cls.identifiant_existant)
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/licornes/add/')
@@ -144,6 +157,33 @@ class AddViewTest(TestCase):
         self.assertFalse("Photo" in str(response.content))
         self.assertTrue("Image" in str(response.content))
         self.assertFalse("+ Ajouter une licorne" in str(response.content))
+
+    def test_redirects_to_etape_on_success(self):
+        #response = self.client.get(reverse('etape', args=[self.identifiant_existant]))
+        #self.assertEqual(response.status_code, 200)
+        with open(os.path.join("licornes/tests", "image-test.jpg"), "rb") as i:
+            response = self.client.post(reverse('add'), {"nom": "Bouou", "identifiant": self.identifiant_inexistant, "createur": self.u.id, "image": i})
+        self.assertRedirects(response, reverse('etape', args=[self.identifiant_inexistant]))
+
+    def test_nom_ne_peut_pas_etre_vide(self):
+        response = self.client.post(reverse('add'), {"nom": "", "identifiant": self.identifiant_inexistant, "createur": self.u.id})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'nom', 'Ce champ est obligatoire.')
+
+    def test_identifiant_ne_peut_pas_etre_vide(self):
+        response = self.client.post(reverse('add'), {"nom": "UIOU", "identifiant": "", "createur": self.u.id})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'identifiant', 'Ce champ est obligatoire.')
+
+    def test_champ_image_peut_etre_vide(self):
+        response = self.client.post(reverse('add'), {"nom": "Bouou", "identifiant": self.identifiant_inexistant, "createur": self.u.id, "image": ""})
+        self.assertRedirects(response, reverse('etape', args=[self.identifiant_inexistant]))
+
+    def test_champ_image_doit_etre_une_image(self):
+        with open(os.path.join("licornes/tests", "spam.txt"), "r") as i:
+            response = self.client.post(reverse('add'), {"nom": "Bouou", "identifiant": self.identifiant_inexistant, "createur": self.u.id, "image": i})
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'image', "Téléversez une image valide. Le fichier que vous avez transféré n'est pas une image ou bien est corrompu.")
 
 class EtapeViewTest(TestCase):
     @classmethod
